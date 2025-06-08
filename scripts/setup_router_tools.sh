@@ -54,36 +54,25 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 # Make scripts executable
-chmod +x router_cli.py
 chmod +x anthropic_assistant.py
 chmod +x router_manager.py
 
 # Create wrapper scripts that automatically use the virtual environment
 echo "Creating wrapper scripts..."
 
-# Create router-cli wrapper
-cat > router-cli << 'EOF'
-#!/bin/bash
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/venv/bin/activate"
-exec python "$SCRIPT_DIR/router_cli.py" "$@"
-EOF
-chmod +x router-cli
-
 # Create router-ai wrapper  
 cat > router-ai << 'EOF'
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/venv/bin/activate"
-exec python "$SCRIPT_DIR/router_ui.py" "$@"
+exec python "$SCRIPT_DIR/src/router_ui.py" "$@"
 EOF
 chmod +x router-ai
 
 # Create symlink for global access (optional)
 if [ "$1" = "--install-global" ]; then
-    sudo ln -sf "$SCRIPT_DIR/router-cli" /usr/local/bin/router-cli
     sudo ln -sf "$SCRIPT_DIR/router-ai" /usr/local/bin/router-ai
-    echo "Installed router-cli and router-ai globally"
+    echo "Installed router-ai globally"
 fi
 
 echo "🎉 Setup complete!"
@@ -95,34 +84,18 @@ echo "  ✅ Network utilities (arping, ip commands)"
 echo "  ✅ Serial communication tools (screen, minicom)"
 echo ""
 echo "🚀 Usage examples:"
-echo "  # Get router system info"
-echo "  ./router-cli info"
-echo ""
-echo "  # Update packages"
-echo "  ./router-cli packages update"
-echo ""
-echo "  # Install a package"
-echo "  ./router-cli packages install htop"
-echo ""
-echo "  # Setup USB storage"
-echo "  ./router-cli storage setup-usb"
-echo ""
-echo "  # Setup NordVPN"
-echo "  ./router-cli vpn setup-nordvpn"
-echo ""
-echo "  # Execute custom command"
-echo "  ./router-cli exec 'uci show network'"
-echo ""
-echo "  # Interactive AI assistant (requires ANTHROPIC_API_KEY)"
+echo "  # 🎨 AI ASSISTANT with split-screen UI!"
 echo "  export ANTHROPIC_API_KEY='your-api-key'"
-echo "  ./router-cli ai"
-echo ""
-echo "  # Single AI command"
-echo "  ./router-cli ai --message 'install htop and check system load'"
-echo ""
-echo "  # 🎨 FANCY AI ASSISTANT with split-screen UI!"
 echo "  export ROUTER_PASS='your-password'"
 echo "  ./router-ai"
+echo ""
+echo "  # Use natural language for all router operations:"
+echo "  - 'Get router system info'"
+echo "  - 'Update packages'"
+echo "  - 'Install htop package'"
+echo "  - 'Setup USB storage'"
+echo "  - 'Setup NordVPN'"
+echo "  - 'Show network configuration'"
 echo ""
 echo "🔧 Recovery tools:"
 echo "  # TFTP recovery (requires root)"

@@ -10,7 +10,6 @@ RouterTools is a comprehensive toolkit for managing OpenWrt routers (specificall
 
 ### Core Components
 - **`src/router_manager.py`**: Core SSH management layer with `OpenWrtManager` class for router operations
-- **`src/router_cli.py`**: CLI interface with argparse-based commands and AI integration
 - **`src/router_ui.py`**: Advanced Textual-based terminal UI with tabbed interface and real-time logging
 - **`src/anthropic_assistant.py`**: AI integration layer that converts natural language to router commands
 
@@ -32,12 +31,8 @@ RouterTools is a comprehensive toolkit for managing OpenWrt routers (specificall
 
 ### Running the Applications
 ```bash
-# CLI interface
-./router-cli info
-./router-cli packages update
-./router-cli ai --message "install htop"
-
-# Terminal UI (requires ROUTER_PASS env var)
+# AI-powered terminal UI (requires ROUTER_PASS env var)
+export ANTHROPIC_API_KEY='your-api-key'
 export ROUTER_PASS='your-password'
 ./router-ai
 

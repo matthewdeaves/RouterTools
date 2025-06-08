@@ -56,13 +56,7 @@ export ROUTER_HOST="192.168.1.1"  # if different
 
 ### 3. **Start Managing Your Router**
 ```bash
-# Get system information
-./router-cli info
-
-# Use AI assistant
-./router-cli ai --message "install htop and show me system resources"
-
-# Launch fancy terminal UI
+# Launch AI assistant terminal UI
 ./router-ai
 ```
 
@@ -70,38 +64,16 @@ export ROUTER_HOST="192.168.1.1"  # if different
 
 ## 🎮 Usage Examples
 
-### **Command Line Interface**
-
-```bash
-# 📊 System Information
-./router-cli info
-
-# 📦 Package Management
-./router-cli packages update
-./router-cli packages install htop nano
-./router-cli packages list
-
-# 💾 USB Storage Setup
-./router-cli storage setup-usb
-
-# 🔒 VPN Configuration
-./router-cli vpn setup-nordvpn
-
-# 🔧 Custom Commands
-./router-cli exec 'uci show network'
-```
-
 ### **AI Assistant**
 
 ```bash
-# Interactive AI session
-./router-cli ai
+# Interactive AI session with terminal UI
+./router-ai
 
-# Single AI command
-./router-cli ai --message "check if my router needs any security updates"
-
-# Complex operations
-./router-cli ai --message "set up a guest network with bandwidth limits"
+# All router management through natural language
+# Examples: "check if my router needs any security updates"
+# "set up a guest network with bandwidth limits"
+# "install htop and show me system resources"
 ```
 
 ### **Terminal UI**
@@ -170,7 +142,6 @@ sudo ./monitor-router
 RouterTools/
 ├── 🐍 src/                     # Core Python modules
 │   ├── router_manager.py       # SSH management layer
-│   ├── router_cli.py          # Command-line interface
 │   ├── router_ui.py           # Terminal UI (Textual)
 │   └── anthropic_assistant.py # AI integration
 ├── 🔧 scripts/                # Recovery & setup tools
@@ -187,7 +158,6 @@ RouterTools/
 | Component | Purpose | Key Features |
 |-----------|---------|--------------|
 | **RouterManager** | SSH operations | Secure router communication |
-| **CLI Interface** | Command execution | Argparse-based commands |
 | **Terminal UI** | Interactive interface | Textual framework, async |
 | **AI Assistant** | Natural language | Claude API integration |
 
@@ -230,7 +200,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Make scripts executable
-chmod +x router-cli router-ai load-firmware monitor-router
+chmod +x router-ai load-firmware monitor-router
 ```
 
 ---
@@ -298,10 +268,7 @@ AI: Runs network tests, checks connections, analyzes performance
 | **Wrong router model** | ⚠️ **STOP** - Only use with WNDR3700 series! |
 
 ### **Debug Mode**
-Enable verbose logging:
-```bash
-./router-cli --debug info
-```
+Enable verbose logging through the AI assistant interface.
 
 ### **Network Issues**
 Test connectivity:
@@ -354,11 +321,10 @@ if manager.connect():
 
 ### **Batch Operations**
 ```bash
-# Multiple package installation
-./router-cli ai --message "install htop, nano, wget, and curl"
-
-# System optimization
-./router-cli ai --message "optimize router performance and enable SQM"
+# All operations through the AI assistant
+./router-ai
+# Then use natural language: "install htop, nano, wget, and curl"
+# "optimize router performance and enable SQM"
 ```
 
 ### **OpenWrt Installation & Recovery**
