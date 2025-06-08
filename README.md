@@ -152,9 +152,9 @@ sudo ./monitor-router
 **Hardware Setup Required:**
 - 🔌 **CP2102 USB-to-UART adapter** ([Example: CP2102 Module](https://www.ebay.co.uk/itm/203604196200))
 - 📌 **Serial Header Connection**: Connect according to [WNDR3700 serial pinout diagram](https://openwrt.org/_media/media/netgear/wndr3700/wndr3700_serial.jpg?w=400&tok=472e27)
-- ⚡ **VCC**: 3.3V (connect to adapter VCC)
 - 📡 **TX/RX**: Cross-connect (Router TX → Adapter RX, Router RX → Adapter TX)
 - 🔧 **GND**: Ground connection
+- ⚠️ **Do NOT connect VCC** - Router is self-powered, only connect RX, TX, and GND pins
 
 **Features:**
 - 🔍 Auto-detects CP2102 USB-to-UART devices
