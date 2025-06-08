@@ -383,7 +383,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **OpenWrt Project** - For the amazing router firmware
 - **Anthropic** - For Claude AI API
 - **Textual** - For the beautiful terminal UI framework
-- **Community** - For testing and feedback
 
 ---
 
