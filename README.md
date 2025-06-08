@@ -378,17 +378,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🎯 Roadmap
-
-- [ ] **Multi-router support** - Manage multiple routers simultaneously
-- [ ] **Web interface** - Browser-based management portal
-- [ ] **Automated backups** - Scheduled configuration backups
-- [ ] **Performance monitoring** - Long-term metrics and alerting
-- [ ] **Plugin system** - Extensible functionality
-- [ ] **Mobile app** - iOS/Android companion app
-
----
-
 ## 🙏 Acknowledgments
 
 - **OpenWrt Project** - For the amazing router firmware
