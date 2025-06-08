@@ -1,0 +1,4 @@
+#!/bin/bash
+# Load Firmware Tool - Convenient launcher from project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$SCRIPT_DIR/scripts/load-firmware.sh" "$@"
