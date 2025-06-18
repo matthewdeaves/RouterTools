@@ -203,3 +203,90 @@ class OpenWrtManager:
                 info[key] = f"Error: {stderr.strip()}"
         
         return info
+    
+    def setup_wireless_client_mode(self, ssid: str, password: str, encryption: str = "psk2") -> bool:
+        """Configure router as wireless client/bridge mode"""
+        print(f"Configuring wireless client mode for SSID: {ssid}")
+        
+        # Commands to configure wireless client mode
+        commands = [
+            # Disable current wireless interfaces
+            "uci set wireless.@wifi-device[0].disabled='0'",
+            "uci delete wireless.@wifi-iface[0]",
+            
+            # Configure wireless interface as client (station mode)
+            "uci add wireless wifi-iface",
+            "uci set wireless.@wifi-iface[0].device='radio0'",
+            "uci set wireless.@wifi-iface[0].network='wwan'",
+            "uci set wireless.@wifi-iface[0].mode='sta'",
+            f"uci set wireless.@wifi-iface[0].ssid='{ssid}'",
+            f"uci set wireless.@wifi-iface[0].encryption='{encryption}'",
+            f"uci set wireless.@wifi-iface[0].key='{password}'",
+            
+            # Create network interface for the wireless connection
+            "uci set network.wwan='interface'",
+            "uci set network.wwan.proto='dhcp'",
+            
+            # Configure firewall to allow traffic from wwan to lan
+            "uci add firewall forwarding",
+            "uci set firewall.@forwarding[-1].src='wwan'",
+            "uci set firewall.@forwarding[-1].dest='lan'",
+            
+            # Add wwan to the lan zone for bridging
+            "uci add_list firewall.@zone[1].network='wwan'",
+            
+            # Commit all changes
+            "uci commit",
+            
+            # Restart network and wireless services
+            "/etc/init.d/network restart",
+            "wifi reload"
+        ]
+        
+        print("Executing wireless client mode configuration...")
+        for i, cmd in enumerate(commands, 1):
+            print(f"Step {i}/{len(commands)}: {cmd}")
+            stdout, stderr, exit_code = self.execute_command(cmd, timeout=30)
+            
+            if exit_code != 0:
+                print(f"Command failed: {stderr}")
+                return False
+            
+            # Add delay after network restart
+            if "network restart" in cmd or "wifi reload" in cmd:
+                print("Waiting for network services to restart...")
+                time.sleep(10)
+        
+        print("Wireless client mode configuration completed successfully")
+        print("Note: The router may take a moment to connect to the target network")
+        return True
+    
+    def get_wireless_status(self) -> Dict[str, str]:
+        """Get wireless interface status and connection info"""
+        commands = {
+            'wireless_config': 'uci show wireless',
+            'wifi_status': 'wifi status',
+            'iwconfig': 'iwconfig 2>/dev/null || echo "iwconfig not available"',
+            'ip_addresses': 'ip addr show',
+            'connected_networks': 'iwinfo | grep -A 10 "ESSID"'
+        }
+        
+        info = {}
+        for key, cmd in commands.items():
+            stdout, stderr, exit_code = self.execute_command(cmd)
+            if exit_code == 0:
+                info[key] = stdout.strip()
+            else:
+                info[key] = f"Error: {stderr.strip()}"
+        
+        return info
+    
+    def scan_wireless_networks(self) -> str:
+        """Scan for available wireless networks"""
+        print("Scanning for wireless networks...")
+        stdout, stderr, exit_code = self.execute_command("iwinfo radio0 scan", timeout=15)
+        
+        if exit_code == 0:
+            return stdout.strip()
+        else:
+            return f"Scan failed: {stderr.strip()}"
